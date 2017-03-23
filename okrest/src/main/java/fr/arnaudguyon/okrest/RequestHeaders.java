@@ -15,4 +15,8 @@ public class RequestHeaders extends RequestPairs {
         }
     }
 
+    public RequestHeaders(RequestHeaders other) {
+        super(other);
+    }
+
 }

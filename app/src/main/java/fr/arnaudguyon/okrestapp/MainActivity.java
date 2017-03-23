@@ -8,6 +8,7 @@ import org.json.JSONObject;
 
 import fr.arnaudguyon.okrest.OkRequest;
 import fr.arnaudguyon.okrest.RequestListenerJSON;
+import fr.arnaudguyon.okrest.RequestParams;
 
 public class MainActivity extends Activity {
 
@@ -37,6 +38,10 @@ public class MainActivity extends Activity {
                 Log.i(TAG, "error " + statusCode);
             }
         });
+
+        RequestParams first = new RequestParams("a", "1", "b", "2");
+        RequestParams second = new RequestParams(first);
+        Log.i(TAG, "second: " + second.toString());
 
     }
 }

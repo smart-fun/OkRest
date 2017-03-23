@@ -17,6 +17,12 @@ abstract class RequestPairs {
     protected RequestPairs() {
     }
 
+    public RequestPairs(RequestPairs other) {
+        for(Pair<String, String> pair : other.mParams) {
+            mParams.add(Pair.create(pair.first, pair.second));
+        }
+    }
+
     public RequestPairs(String... args) {
         for(int i=0; i< args.length; i+= 2) {
             add(args[i], args[i+1]);

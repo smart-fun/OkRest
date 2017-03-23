@@ -11,4 +11,8 @@ public class RequestParams extends RequestPairs {
         super(args);
     }
 
+    public RequestParams(RequestParams other) {
+        super(other);
+    }
+
 }
