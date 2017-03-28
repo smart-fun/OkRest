@@ -27,7 +27,7 @@ public class MainActivity extends Activity {
                 .params("postId", "1")
                 .build();
 
-        request.get(this, REQUEST_COMMENTS_ID, new RequestListenerJSON() {
+        request.execute(this, REQUEST_COMMENTS_ID, new RequestListenerJSON() {
             @Override
             public void onRequestSuccess(int requestCode, JSONObject responseBody) {
                 Log.i(TAG, responseBody.toString());

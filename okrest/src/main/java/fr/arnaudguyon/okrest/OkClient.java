@@ -50,7 +50,7 @@ class OkClient {
         return sInstance;
     }
 
-    void get(Context context, int requestCode, OkRequest okRequest, RequestListenerJSON listener) {
+    void execute(Context context, int requestCode, OkRequest okRequest, RequestListenerJSON listener) {
 
         if (!checkInternetConnection(context, requestCode, listener)) {
             return;

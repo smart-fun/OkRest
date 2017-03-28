@@ -33,8 +33,11 @@ public class OkRequest {
         private String mUrl;
         private RequestParams mParams;
         private RequestHeaders mHeaders;
-        private String mBodyString;
-        private JSONObject mBodyJSON;
+        private String mPostBodyString;
+        private JSONObject mPostBodyJSON;
+
+        private String mPutBodyString;
+        private JSONObject mPutBodyJSON;
 
         public Builder() {
         }
@@ -64,13 +67,23 @@ public class OkRequest {
             return this;
         }
 
-        public Builder body(String body) {
-            mBodyString = body;
+        public Builder postBody(String body) {
+            mPostBodyString = body;
             return this;
         }
 
-        public Builder body(JSONObject body) {
-            mBodyJSON = body;
+        public Builder postBody(JSONObject body) {
+            mPostBodyJSON = body;
+            return this;
+        }
+
+        public Builder putBody(String body) {
+            mPutBodyString = body;
+            return this;
+        }
+
+        public Builder putBody(JSONObject body) {
+            mPutBodyJSON = body;
             return this;
         }
 
@@ -80,9 +93,9 @@ public class OkRequest {
 
     }
 
-    public void get(Context context, int requestCode, RequestListenerJSON listener) {
+    public void execute(Context context, int requestCode, RequestListenerJSON listener) {
         OkClient client = OkClient.getInstance();
-        client.get(context, requestCode, this, listener);
+        client.execute(context, requestCode, this, listener);
     }
 
     private static HttpUrl formatUrl(String url, RequestParams params) {
@@ -120,18 +133,33 @@ public class OkRequest {
             builder.addHeader("Accept", "application/json");
         }
 
-        // BODY
-        if ((mBuilder.mBodyJSON != null) || !TextUtils.isEmpty(mBuilder.mBodyString)) {
+        // POST BODY
+        if ((mBuilder.mPostBodyJSON != null) || !TextUtils.isEmpty(mBuilder.mPostBodyString)) {
             if (responseType == ResponseType.TEXT) {
-                RequestBody requestBody = RequestBody.create(TEXT, mBuilder.mBodyString);
+                RequestBody requestBody = RequestBody.create(TEXT, mBuilder.mPostBodyString);
                 builder.post(requestBody);
             } else if (responseType == ResponseType.JSON) {
-                String body = (mBuilder.mBodyJSON != null) ? mBuilder.mBodyJSON.toString() : mBuilder.mBodyString;
+                String body = (mBuilder.mPostBodyJSON != null) ? mBuilder.mPostBodyJSON.toString() : mBuilder.mPostBodyString;
                 RequestBody requestBody = RequestBody.create(JSON, body);
                 builder.post(requestBody);
             } else if (responseType == ResponseType.XML) {
-                RequestBody requestBody = RequestBody.create(XML, mBuilder.mBodyString);
+                RequestBody requestBody = RequestBody.create(XML, mBuilder.mPostBodyString);
                 builder.post(requestBody);
+            }
+        }
+
+        // PUT BODY
+        if ((mBuilder.mPutBodyJSON != null) || !TextUtils.isEmpty(mBuilder.mPutBodyString)) {
+            if (responseType == ResponseType.TEXT) {
+                RequestBody requestBody = RequestBody.create(TEXT, mBuilder.mPutBodyString);
+                builder.put(requestBody);
+            } else if (responseType == ResponseType.JSON) {
+                String body = (mBuilder.mPutBodyJSON != null) ? mBuilder.mPutBodyJSON.toString() : mBuilder.mPutBodyString;
+                RequestBody requestBody = RequestBody.create(JSON, body);
+                builder.put(requestBody);
+            } else if (responseType == ResponseType.XML) {
+                RequestBody requestBody = RequestBody.create(XML, mBuilder.mPutBodyString);
+                builder.put(requestBody);
             }
         }
 
