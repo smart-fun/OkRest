@@ -23,6 +23,12 @@ public class OkRequest {
     private static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
     private static final MediaType XML = MediaType.parse("application/xml; charset=utf-8");
 
+    public enum BodyType {
+        POST,
+        PUT,
+        PATCH
+    }
+
     private Builder mBuilder;
 
     private OkRequest(Builder builder) {
@@ -33,11 +39,10 @@ public class OkRequest {
         private String mUrl;
         private RequestParams mParams;
         private RequestHeaders mHeaders;
-        private String mPostBodyString;
-        private JSONObject mPostBodyJSON;
 
-        private String mPutBodyString;
-        private JSONObject mPutBodyJSON;
+        private String mBodyString;
+        private JSONObject mBodyJSON;
+        private BodyType mBodyType;
 
         public Builder() {
         }
@@ -67,23 +72,15 @@ public class OkRequest {
             return this;
         }
 
-        public Builder postBody(String body) {
-            mPostBodyString = body;
+        public Builder body(BodyType bodyType, String body) {
+            mBodyType = bodyType;
+            mBodyString = body;
             return this;
         }
 
-        public Builder postBody(JSONObject body) {
-            mPostBodyJSON = body;
-            return this;
-        }
-
-        public Builder putBody(String body) {
-            mPutBodyString = body;
-            return this;
-        }
-
-        public Builder putBody(JSONObject body) {
-            mPutBodyJSON = body;
+        public Builder body(BodyType bodyType, JSONObject body) {
+            mBodyType = bodyType;
+            mBodyJSON = body;
             return this;
         }
 
@@ -134,32 +131,27 @@ public class OkRequest {
         }
 
         // POST BODY
-        if ((mBuilder.mPostBodyJSON != null) || !TextUtils.isEmpty(mBuilder.mPostBodyString)) {
+        if ((mBuilder.mBodyJSON != null) || !TextUtils.isEmpty(mBuilder.mBodyString)) {
+            RequestBody requestBody = null;
             if (responseType == ResponseType.TEXT) {
-                RequestBody requestBody = RequestBody.create(TEXT, mBuilder.mPostBodyString);
-                builder.post(requestBody);
+                requestBody = RequestBody.create(TEXT, mBuilder.mBodyString);
             } else if (responseType == ResponseType.JSON) {
-                String body = (mBuilder.mPostBodyJSON != null) ? mBuilder.mPostBodyJSON.toString() : mBuilder.mPostBodyString;
-                RequestBody requestBody = RequestBody.create(JSON, body);
-                builder.post(requestBody);
+                String body = (mBuilder.mBodyJSON != null) ? mBuilder.mBodyJSON.toString() : mBuilder.mBodyString;
+                requestBody = RequestBody.create(JSON, body);
             } else if (responseType == ResponseType.XML) {
-                RequestBody requestBody = RequestBody.create(XML, mBuilder.mPostBodyString);
-                builder.post(requestBody);
+                requestBody = RequestBody.create(XML, mBuilder.mBodyString);
             }
-        }
-
-        // PUT BODY
-        if ((mBuilder.mPutBodyJSON != null) || !TextUtils.isEmpty(mBuilder.mPutBodyString)) {
-            if (responseType == ResponseType.TEXT) {
-                RequestBody requestBody = RequestBody.create(TEXT, mBuilder.mPutBodyString);
-                builder.put(requestBody);
-            } else if (responseType == ResponseType.JSON) {
-                String body = (mBuilder.mPutBodyJSON != null) ? mBuilder.mPutBodyJSON.toString() : mBuilder.mPutBodyString;
-                RequestBody requestBody = RequestBody.create(JSON, body);
-                builder.put(requestBody);
-            } else if (responseType == ResponseType.XML) {
-                RequestBody requestBody = RequestBody.create(XML, mBuilder.mPutBodyString);
-                builder.put(requestBody);
+            switch (mBuilder.mBodyType) {
+                case PATCH:
+                    builder.patch(requestBody);
+                    break;
+                case PUT:
+                    builder.put(requestBody);
+                    break;
+                case POST:
+                default:
+                    builder.post(requestBody);
+                    break;
             }
         }
 
