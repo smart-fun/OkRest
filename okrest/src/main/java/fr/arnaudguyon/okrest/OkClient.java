@@ -5,6 +5,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Handler;
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
 import android.util.Log;
 
 import org.json.JSONArray;
@@ -114,7 +115,7 @@ class OkClient {
                 } else if (listener instanceof RequestListenerJSON) {
                     RequestListenerJSON jsonListener = (RequestListenerJSON) listener;
                     try {
-                        JSONObject jsonObject = new JSONObject(body);
+                        JSONObject jsonObject = TextUtils.isEmpty(body) ? new JSONObject() : new JSONObject(body);
                         jsonListener.onRequestSuccess(requestCode, jsonObject);
                     } catch (JSONException e) {
                         try {
