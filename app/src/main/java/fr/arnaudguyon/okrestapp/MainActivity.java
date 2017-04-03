@@ -38,6 +38,8 @@ public class MainActivity extends Activity {
 
         });
 
+//        request.cancel();
+
         RequestParams first = new RequestParams("a", "1", "b", "2");
         RequestParams second = new RequestParams(first);
         Log.i(TAG, "second: " + second.toString());

@@ -7,6 +7,7 @@ import android.text.TextUtils;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
 import okhttp3.HttpUrl;
 import okhttp3.MediaType;
@@ -30,6 +31,7 @@ public class OkRequest {
     }
 
     private Builder mBuilder;
+    private String mTag;
 
     private OkRequest(Builder builder) {
         mBuilder = builder;
@@ -161,6 +163,15 @@ public class OkRequest {
             }
         }
 
+        // unique Tag in case of the user wants to cancel the call later
+        mTag = UUID.randomUUID().toString();
+        builder.tag(mTag);
+
         return builder.build();
+    }
+
+    public void cancel() {
+        OkClient client = OkClient.getInstance();
+        client.cancelRequest(mTag);
     }
 }

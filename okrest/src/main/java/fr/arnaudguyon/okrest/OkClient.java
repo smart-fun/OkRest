@@ -5,13 +5,16 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Handler;
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
 import android.util.Log;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.Call;
 import okhttp3.Callback;
+import okhttp3.Dispatcher;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -52,6 +55,47 @@ class OkClient {
         }
         Request request = okRequest.createOkHttpRequest(context);
         doRequest(context, request, requestCode, listener);
+    }
+
+    public void cancelAllRequests() {
+        Dispatcher dispatcher = mClient.dispatcher();
+        if (dispatcher != null) {
+            List<Call> queueCalls = dispatcher.queuedCalls();
+            cancelAllRequest(queueCalls);
+            List<Call> runningCalls = dispatcher.runningCalls();
+            cancelAllRequest(runningCalls);
+        }
+    }
+
+    private void cancelAllRequest(List<Call> calls) {
+        if (calls != null) {
+            for (Call call : calls) {
+                call.cancel();
+            }
+        }
+    }
+
+    public void cancelRequest(@NonNull String tag) {
+        Dispatcher dispatcher = mClient.dispatcher();
+        if (dispatcher != null) {
+            List<Call> queueCalls = dispatcher.queuedCalls();
+            cancelRequest(tag, queueCalls);
+            List<Call> runningCalls = dispatcher.runningCalls();
+            cancelRequest(tag, runningCalls);
+        }
+    }
+
+    private void cancelRequest(String tag, List<Call> calls) {
+        if (calls != null) {
+            for (Call call : calls) {
+                Request request = call.request();
+                if (request != null) {
+                    if (TextUtils.equals(tag, request.tag().toString())) {
+                        call.cancel();
+                    }
+                }
+            }
+        }
     }
 
     private void doRequest(final Context context, Request request, final int requestCode, final RequestListener listener) {
