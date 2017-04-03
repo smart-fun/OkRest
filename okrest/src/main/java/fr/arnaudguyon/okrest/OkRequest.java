@@ -39,6 +39,7 @@ public class OkRequest {
         private String mUrl;
         private RequestParams mParams;
         private RequestHeaders mHeaders;
+        private ResponseType mResponseType = ResponseType.JSON;
 
         private String mBodyString;
         private JSONObject mBodyJSON;
@@ -84,13 +85,18 @@ public class OkRequest {
             return this;
         }
 
+        public Builder setResponseType(ResponseType responseType) {
+            mResponseType = responseType;
+            return this;
+        }
+
         public OkRequest build() {
             return new OkRequest(this);
         }
 
     }
 
-    public void execute(Context context, int requestCode, RequestListenerJSON listener) {
+    public void execute(Context context, int requestCode, RequestListener listener) {
         OkClient client = OkClient.getInstance();
         client.execute(context, requestCode, this, listener);
     }
@@ -111,7 +117,7 @@ public class OkRequest {
         return HttpUrl.parse(url);
     }
 
-    Request createOkHttpRequest(Context context, ResponseType responseType) {
+    Request createOkHttpRequest(Context context) {
 
         Request.Builder builder = new Request.Builder();
 
@@ -126,19 +132,16 @@ public class OkRequest {
                 builder.addHeader(pair.first, pair.second);
             }
         }
-        if (responseType == ResponseType.JSON) {
-            builder.addHeader("Accept", "application/json");
-        }
 
         // POST BODY
         if ((mBuilder.mBodyJSON != null) || !TextUtils.isEmpty(mBuilder.mBodyString)) {
             RequestBody requestBody = null;
-            if (responseType == ResponseType.TEXT) {
+            if (mBuilder.mResponseType == ResponseType.TEXT) {
                 requestBody = RequestBody.create(TEXT, mBuilder.mBodyString);
-            } else if (responseType == ResponseType.JSON) {
+            } else if (mBuilder.mResponseType == ResponseType.JSON) {
                 String body = (mBuilder.mBodyJSON != null) ? mBuilder.mBodyJSON.toString() : mBuilder.mBodyString;
                 requestBody = RequestBody.create(JSON, body);
-            } else if (responseType == ResponseType.XML) {
+            } else if (mBuilder.mResponseType == ResponseType.XML) {
                 requestBody = RequestBody.create(XML, mBuilder.mBodyString);
             }
             switch (mBuilder.mBodyType) {

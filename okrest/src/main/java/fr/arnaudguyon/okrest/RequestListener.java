@@ -2,8 +2,8 @@ package fr.arnaudguyon.okrest;
 
 /**
  * Listener interface for Request responses
- * Use derived classes RequestListenerString or RequestListenerJSON
  */
 
-interface RequestListener {
+public interface RequestListener {
+    void onRequestResponse(boolean success, int requestCode, OkResponse response);
 }

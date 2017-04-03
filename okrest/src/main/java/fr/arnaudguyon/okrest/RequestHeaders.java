@@ -10,13 +10,16 @@ public class RequestHeaders extends RequestPairs {
     }
 
     public RequestHeaders(String... args) {
-        for(int i=0; i< args.length; i+= 2) {
-            add(args[i], args[i+1]);
-        }
+        super(args);
     }
 
     public RequestHeaders(RequestHeaders other) {
         super(other);
+    }
+
+    public RequestHeaders addAcceptJson() {
+        add("Accept", "application/json");
+        return this;
     }
 
 }

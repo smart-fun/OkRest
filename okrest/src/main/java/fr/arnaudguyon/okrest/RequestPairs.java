@@ -2,6 +2,7 @@ package fr.arnaudguyon.okrest;
 
 import android.support.annotation.NonNull;
 import android.support.v4.util.Pair;
+import android.text.TextUtils;
 
 import java.util.ArrayList;
 
@@ -35,5 +36,24 @@ abstract class RequestPairs {
 
     ArrayList<Pair<String, String>> getParams() {
         return mParams;
+    }
+
+    public String getFirst(String key) {
+        for(Pair<String, String> pair : mParams) {
+            if (TextUtils.equals(pair.first, key)) {
+                return pair.second;
+            }
+        }
+        return null;
+    }
+
+    public ArrayList<String> getAll(String key) {
+        ArrayList<String> result = new ArrayList<>();
+        for(Pair<String, String> pair : mParams) {
+            if (TextUtils.equals(pair.first, key)) {
+                result.add(pair.second);
+            }
+        }
+        return result;
     }
 }

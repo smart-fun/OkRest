@@ -4,10 +4,9 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
 
-import org.json.JSONObject;
-
 import fr.arnaudguyon.okrest.OkRequest;
-import fr.arnaudguyon.okrest.RequestListenerJSON;
+import fr.arnaudguyon.okrest.OkResponse;
+import fr.arnaudguyon.okrest.RequestListener;
 import fr.arnaudguyon.okrest.RequestParams;
 
 public class MainActivity extends Activity {
@@ -27,16 +26,16 @@ public class MainActivity extends Activity {
                 .params("postId", "1")
                 .build();
 
-        request.execute(this, REQUEST_COMMENTS_ID, new RequestListenerJSON() {
+        request.execute(this, REQUEST_COMMENTS_ID, new RequestListener() {
             @Override
-            public void onRequestSuccess(int requestCode, JSONObject responseBody) {
-                Log.i(TAG, responseBody.toString());
+            public void onRequestResponse(boolean success, int requestCode, OkResponse response) {
+                if (success) {
+                    Log.i(TAG, response.getBodyJSON().toString());
+                } else {
+                    Log.i(TAG, "error " + response.getStatusCode());
+                }
             }
 
-            @Override
-            public void onRequestFailure(int requestCode, int statusCode, JSONObject responseBody) {
-                Log.i(TAG, "error " + statusCode);
-            }
         });
 
         RequestParams first = new RequestParams("a", "1", "b", "2");
