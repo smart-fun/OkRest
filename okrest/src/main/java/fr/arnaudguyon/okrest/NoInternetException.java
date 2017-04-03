@@ -5,4 +5,9 @@ package fr.arnaudguyon.okrest;
  */
 
 public class NoInternetException extends Exception {
+
+    public NoInternetException() {
+        super("No Internet Connection");
+    }
+
 }

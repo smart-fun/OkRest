@@ -1,5 +1,6 @@
 package fr.arnaudguyon.okrest;
 
+import android.accounts.NetworkErrorException;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
@@ -26,6 +27,14 @@ public class OkResponse {
 
     OkResponse(@NonNull Response response) {
         mResponse = response;
+        ResponseBody responseBody = mResponse.body();
+        if (responseBody != null) {
+            try {
+                mString = responseBody.string();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     OkResponse(@NonNull Exception error) {
@@ -51,16 +60,6 @@ public class OkResponse {
     }
 
     public String getBodyString() {
-        if ((mString == null) && (mResponse != null)) {
-            ResponseBody responseBody = mResponse.body();
-            if (responseBody != null) {
-                try {
-                    mString = responseBody.string();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
         return mString;
     }
 
@@ -88,8 +87,15 @@ public class OkResponse {
         return null;
     }
 
-    public Exception getError() {
-        return mError;
+    public @NonNull Exception getError() {
+        if (mError != null) {
+            return mError;
+        }
+        if (mResponse != null) {
+            String message = mResponse.message();
+            return new NetworkErrorException(message);
+        }
+        return new NetworkErrorException();
     }
 
 }

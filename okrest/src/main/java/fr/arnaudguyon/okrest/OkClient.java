@@ -75,8 +75,9 @@ class OkClient {
                 if ((listener == null) || call.isCanceled()) {
                     return;
                 }
+                boolean success = response.isSuccessful();
                 OkResponse okResponse = new OkResponse(response);
-                sendResponse(handler, response.isSuccessful(), requestCode, okResponse, listener);
+                sendResponse(handler, success, requestCode, okResponse, listener);
             }
         });
     }

@@ -132,6 +132,9 @@ public class OkRequest {
                 builder.addHeader(pair.first, pair.second);
             }
         }
+        if (mBuilder.mResponseType == ResponseType.JSON) {
+            builder.addHeader("Accept", "application/json");
+        }
 
         // POST BODY
         if ((mBuilder.mBodyJSON != null) || !TextUtils.isEmpty(mBuilder.mBodyString)) {
