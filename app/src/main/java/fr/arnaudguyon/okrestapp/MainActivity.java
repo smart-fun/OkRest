@@ -23,7 +23,7 @@ public class MainActivity extends Activity {
 
         OkRequest request = new OkRequest.Builder()
                 .url("https://jsonplaceholder.typicode.com/posts/1")
-                .params("postId", "1")
+                .addParams("postId", "1")
                 .build();
 
         request.execute(this, REQUEST_COMMENTS_ID, new RequestListener() {
@@ -40,7 +40,8 @@ public class MainActivity extends Activity {
 
 //        request.cancel();
 
-        RequestParams first = new RequestParams("a", "1", "b", "2");
+        RequestParams first = new RequestParams("a", "1");
+        first.add("b", "2");
         RequestParams second = new RequestParams(first);
         Log.i(TAG, "second: " + second.toString());
 

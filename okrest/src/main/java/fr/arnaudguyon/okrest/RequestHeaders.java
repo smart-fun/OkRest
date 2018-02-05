@@ -1,16 +1,15 @@
 package fr.arnaudguyon.okrest;
 
+import android.support.annotation.NonNull;
+
 /**
  * Headers for a Request
  */
 
 public class RequestHeaders extends RequestPairs {
 
-    public RequestHeaders() {
-    }
-
-    public RequestHeaders(String... args) {
-        super(args);
+    public RequestHeaders(@NonNull String key, @NonNull String value) {
+        super(key, value);
     }
 
     public RequestHeaders(RequestHeaders other) {

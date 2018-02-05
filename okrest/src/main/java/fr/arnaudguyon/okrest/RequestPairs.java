@@ -24,10 +24,8 @@ abstract class RequestPairs {
         }
     }
 
-    public RequestPairs(String... args) {
-        for(int i=0; i< args.length; i+= 2) {
-            add(args[i], args[i+1]);
-        }
+    public RequestPairs(@NonNull String key, @NonNull String value) {
+        add(key, value);
     }
 
     public void add(@NonNull String key, @NonNull String value) {

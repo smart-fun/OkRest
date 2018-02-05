@@ -1,6 +1,7 @@
 package fr.arnaudguyon.okrest;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.v4.util.Pair;
 import android.text.TextUtils;
 
@@ -50,18 +51,22 @@ public class OkRequest {
         public Builder() {
         }
 
-        public Builder url(String url) {
+        public Builder url(@NonNull String url) {
             mUrl = url;
             return this;
         }
 
-        public Builder params(RequestParams params) {
+        public Builder params(@NonNull RequestParams params) {
             mParams = params;
             return this;
         }
 
-        public Builder params(String... params) {
-            mParams = new RequestParams(params);
+        public Builder addParams(@NonNull String key, @NonNull String value) {
+            if (mParams == null) {
+                mParams = new RequestParams(key, value);
+            } else {
+                mParams.add(key, value);
+            }
             return this;
         }
 
@@ -70,8 +75,12 @@ public class OkRequest {
             return this;
         }
 
-        public Builder headers(String... params) {
-            mHeaders = new RequestHeaders(params);
+        public Builder addHeaders(@NonNull String key, @NonNull String value) {
+            if (mHeaders == null) {
+                mHeaders = new RequestHeaders(key, value);
+            } else {
+                mHeaders.add(key, value);
+            }
             return this;
         }
 
