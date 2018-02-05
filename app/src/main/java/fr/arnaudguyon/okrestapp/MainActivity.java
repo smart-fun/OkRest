@@ -3,6 +3,7 @@ package fr.arnaudguyon.okrestapp;
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.TextView;
 
 import fr.arnaudguyon.okrest.OkRequest;
 import fr.arnaudguyon.okrest.OkResponse;
@@ -20,6 +21,7 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);
+        final TextView resultView = findViewById(R.id.resultView);
 
         OkRequest request = new OkRequest.Builder()
                 .url("https://jsonplaceholder.typicode.com/posts/1")
@@ -30,9 +32,13 @@ public class MainActivity extends Activity {
             @Override
             public void onRequestResponse(boolean success, int requestCode, OkResponse response) {
                 if (success) {
-                    Log.i(TAG, response.getBodyJSON().toString());
+                    String result = response.getBodyJSON().toString();
+                    resultView.setText(result);
+                    Log.i(TAG, result);
                 } else {
-                    Log.i(TAG, "error " + response.getStatusCode());
+                    String result = "error " + response.getStatusCode();
+                    Log.i(TAG, result);
+                    resultView.setText(result);
                 }
             }
 
