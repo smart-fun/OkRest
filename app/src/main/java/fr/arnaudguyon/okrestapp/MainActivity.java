@@ -22,7 +22,7 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
 
         OkRequest request = new OkRequest.Builder()
-                .url("https://jsonplaceholder.typicode.com/comments")
+                .url("https://jsonplaceholder.typicode.com/posts/1")
                 .params("postId", "1")
                 .build();
 
