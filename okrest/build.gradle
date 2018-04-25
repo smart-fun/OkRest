@@ -2,7 +2,7 @@ apply plugin: 'com.android.library'
 
 android {
     compileSdkVersion 27
-    buildToolsVersion "27.0.2"
+    buildToolsVersion "27.0.3"
 
     defaultConfig {
         minSdkVersion 14
@@ -19,10 +19,10 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     implementation "com.android.support:support-annotations:$rootProject.supportLibraryVersion"
     implementation "com.android.support:support-core-utils:$rootProject.supportLibraryVersion"
 
-    implementation "com.squareup.okhttp3:okhttp:3.9.0"
+    implementation "com.squareup.okhttp3:okhttp:3.10.0"
 }
