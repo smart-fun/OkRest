@@ -28,7 +28,8 @@ public class OkRequest {
     public enum BodyType {
         POST,
         PUT,
-        PATCH
+        PATCH,
+        CONNECT
     }
 
     private Builder mBuilder;
@@ -61,7 +62,7 @@ public class OkRequest {
             return this;
         }
 
-        public Builder addParams(@NonNull String key, @NonNull String value) {
+        public Builder addParam(@NonNull String key, @NonNull String value) {
             if (mParams == null) {
                 mParams = new RequestParams(key, value);
             } else {
@@ -75,7 +76,7 @@ public class OkRequest {
             return this;
         }
 
-        public Builder addHeaders(@NonNull String key, @NonNull String value) {
+        public Builder addHeader(@NonNull String key, @NonNull String value) {
             if (mHeaders == null) {
                 mHeaders = new RequestHeaders(key, value);
             } else {
@@ -147,7 +148,7 @@ public class OkRequest {
             builder.addHeader("Accept", "application/json");
         }
 
-        // POST BODY
+        // BODY (POST / PUT...)
         if ((mBuilder.mBodyJSON != null) || !TextUtils.isEmpty(mBuilder.mBodyString)) {
             RequestBody requestBody = null;
             if (mBuilder.mResponseType == ResponseType.TEXT) {
@@ -158,18 +159,7 @@ public class OkRequest {
             } else if (mBuilder.mResponseType == ResponseType.XML) {
                 requestBody = RequestBody.create(XML, mBuilder.mBodyString);
             }
-            switch (mBuilder.mBodyType) {
-                case PATCH:
-                    builder.patch(requestBody);
-                    break;
-                case PUT:
-                    builder.put(requestBody);
-                    break;
-                case POST:
-                default:
-                    builder.post(requestBody);
-                    break;
-            }
+            builder.method(mBuilder.mBodyType.name(), requestBody);
         }
 
         // unique Tag in case of the user wants to cancel the call later
