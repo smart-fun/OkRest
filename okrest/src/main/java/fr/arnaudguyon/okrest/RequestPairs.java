@@ -13,9 +13,10 @@ package fr.arnaudguyon.okrest;
     limitations under the License.
  */
 
-import android.support.annotation.NonNull;
-import android.support.v4.util.Pair;
 import android.text.TextUtils;
+
+import androidx.annotation.NonNull;
+import androidx.core.util.Pair;
 
 import java.util.ArrayList;
 

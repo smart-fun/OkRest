@@ -36,27 +36,28 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
         final TextView resultView = findViewById(R.id.resultView);
 
-OkRequest request = new OkRequest.Builder()
-        .url("https://jsonplaceholder.typicode.com/posts/1")
-        .addParam("postId", "1")
-        .addHeader("Accept", "application/json")
-        .build();
+        OkRequest request = new OkRequest.Builder()
+                .url("https://world.openfoodfacts.org/api/v0/product/737628064502.json")
+//                .url("https://jsonplaceholder.typicode.com/posts/1")
+//                .addParam("postId", "1")
+                .addHeader("Accept", "application/json")
+                .build();
 
-request.execute(this, REQUEST_COMMENTS_ID, new RequestListener() {
-    @Override
-    public void onRequestResponse(boolean success, int requestCode, OkResponse response) {
-        if (success) {
-            String result = response.getBodyJSON().toString();
-            resultView.setText(result);
-            Log.i(TAG, result);
-        } else {
-            String result = "error " + response.getStatusCode();
-            Log.i(TAG, result);
-            resultView.setText(result);
-        }
-    }
+        request.execute(this, REQUEST_COMMENTS_ID, new RequestListener() {
+            @Override
+            public void onRequestResponse(boolean success, int requestCode, OkResponse response) {
+                if (success) {
+                    String result = response.getBodyJSON().toString();
+                    resultView.setText(result);
+                    Log.i(TAG, result);
+                } else {
+                    String result = "error " + response.getStatusCode();
+                    Log.i(TAG, result);
+                    resultView.setText(result);
+                }
+            }
 
-});
+        });
 
 //        request.cancel();
 

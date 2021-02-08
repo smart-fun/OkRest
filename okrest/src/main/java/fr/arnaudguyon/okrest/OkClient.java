@@ -17,16 +17,19 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Handler;
-import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.Call;
 import okhttp3.Callback;
+import okhttp3.ConnectionSpec;
 import okhttp3.Dispatcher;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -45,7 +48,10 @@ class OkClient {
     private static final int ERRORCODE_NO_INTERNET_CONNECTION = -1;
 
     private static OkClient sInstance;
-    private OkHttpClient mClient = new OkHttpClient.Builder().readTimeout(DEFAULT_TIMOUT, TimeUnit.MILLISECONDS).build();
+    private OkHttpClient mClient = new OkHttpClient.Builder()
+            .readTimeout(DEFAULT_TIMOUT, TimeUnit.MILLISECONDS)
+//            .connectionSpecs(Arrays.asList(ConnectionSpec.COMPATIBLE_TLS))
+            .build();
 
     private OkClient() {
     }

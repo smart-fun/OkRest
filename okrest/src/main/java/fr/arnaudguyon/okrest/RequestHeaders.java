@@ -13,7 +13,7 @@ package fr.arnaudguyon.okrest;
     limitations under the License.
  */
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 /**
  * Headers for a Request

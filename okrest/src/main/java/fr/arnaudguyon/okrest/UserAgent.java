@@ -31,8 +31,8 @@ class UserAgent {
     static String get(Context context) {
         if (sUserAgent == null) {
 
-            String versionName = BuildConfig.VERSION_NAME;
-            int versionCode = BuildConfig.VERSION_CODE;
+            String versionName = "1.0";
+            int versionCode = 1;
             try {
                 PackageInfo packageInfo = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
                 versionName = packageInfo.versionName;
@@ -49,7 +49,7 @@ class UserAgent {
             String deviceName = Build.MANUFACTURER + " " + Build.MODEL;
             String deviceLanguage = locale.getLanguage() + "-" + locale.getCountry();
 
-            String appVersion = BuildConfig.APPLICATION_ID + "/" + versionName;
+            String appVersion = context.getPackageName() + "/" + versionName;
             String appBuild = "Build " + versionCode;
 
             sUserAgent =

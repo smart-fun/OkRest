@@ -14,8 +14,9 @@ package fr.arnaudguyon.okrest;
  */
 
 import android.accounts.NetworkErrorException;
-import android.support.annotation.NonNull;
 import android.text.TextUtils;
+
+import androidx.annotation.NonNull;
 
 import org.json.JSONArray;
 import org.json.JSONException;
