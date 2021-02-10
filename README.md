@@ -42,7 +42,7 @@ request.execute(context, REQUEST_CODE, new RequestListener() {
 
 ## Library License
 
-Copyright 2017-2019 Arnaud Guyon
+Copyright 2017-2021 Arnaud Guyon
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
