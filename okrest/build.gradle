@@ -1,11 +1,11 @@
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion 29
+    compileSdkVersion 30
 
     defaultConfig {
         minSdkVersion 14
-        targetSdkVersion 29
+        targetSdkVersion 30
         versionCode 15
         versionName "0.6.7"
     }
@@ -20,8 +20,8 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    implementation 'androidx.annotation:annotation:1.1.0'
+    implementation 'androidx.annotation:annotation:1.2.0'
     implementation 'androidx.legacy:legacy-support-core-utils:1.0.0'
 
-    implementation "com.squareup.okhttp3:okhttp:3.11.0"
+    implementation "com.squareup.okhttp3:okhttp:3.12.1"
 }
